@@ -1,11 +1,13 @@
 class Post < ActiveRecord::Base
-  validates :title, :sub, :author, presence: true
+  validates :title, :author, presence: true
+  validates :subs, length: { minimum: 1 }
 
   belongs_to :author,
-    class_name: :User,
-    dependent: :destroy
+    class_name: :User
 
-  belongs_to :sub,
-  dependent: :destroy
+  has_many :post_subs, dependent: :destroy
+
+  has_many :subs, through: :post_subs
+
 
 end

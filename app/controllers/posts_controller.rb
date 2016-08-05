@@ -10,7 +10,6 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.author = current_user
-    @post.sub_id = params[:sub_id]
     if @post.save
       redirect_to post_url(@post)
     else
@@ -46,7 +45,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :url, :content, :sub_id)
+    params.require(:post).permit(:title, :url, :content, sub_ids: [])
   end
 
   def find_post

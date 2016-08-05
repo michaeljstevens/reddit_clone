@@ -2,4 +2,9 @@
 <h4><%= link_to @post.url, "http://" + @post.url %></h4>
 <p><%= @post.content %></p>
 
-<%= link_to @post.sub.title, sub_url(@post.sub) %>
+<%= link_to "Edit Post", edit_post_url(@post) %>
+
+<h4>Subs</h4>
+<% @post.subs.each do |sub| %>
+  <%= link_to sub.title, sub_url(sub) %>
+<% end %>
