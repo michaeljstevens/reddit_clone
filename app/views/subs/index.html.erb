@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <th>Title</th>
+    <th>Description</th>
+  </thead>
+  <tbody>
+    <% @subs.each do |sub| %>
+      <tr>
+        <td><%= link_to sub.title, sub_url(sub) %></td>
+        <td><%= sub.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Create Sub", new_sub_url %>

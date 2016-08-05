@@ -1,0 +1,12 @@
+<h2><%= @sub.title %></h2>
+<p><%= @sub.description %></p>
+
+<%= link_to "All Subs", subs_url %>
+<hr>
+
+<h4>Posts</h4>
+<% @sub.posts.each do |post| %>
+  <%= link_to post.title, post_url(post) %>
+<% end %>
+
+<%= link_to "New Post", new_sub_post_url(@sub) %>
