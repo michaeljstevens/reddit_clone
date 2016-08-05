@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :authenticate, except: [:show]
-  before_action :find_post, only: [:edit, :update, :destroy, :show]
+  before_action :find_post, only: [:edit, :update, :destroy, :show, :upvote, :downvote]
   before_action :owner, only: [:edit, :update, :destroy]
 
   def new
@@ -16,6 +16,15 @@ class PostsController < ApplicationController
       flash.now[:errors] = @post.errors.full_messages
       render :new
     end
+  end
+
+  def upvote
+    @post.votes.new(value: 1)
+    save(@post)
+  end
+  def downvote
+    @post.votes.new(value: -1)
+    save(@post)
   end
 
   def edit

@@ -19,6 +19,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def save(object)
+    if object.save
+      redirect_to :back
+    else
+      flash[:errors] = vote.errors.full_messages
+      redirect_to :back
+    end
+  end
+
   def logged_in?
     !!current_user
   end

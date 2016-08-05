@@ -1,0 +1,3 @@
+<h1>New Comment</h1>
+
+<%= render "form", url: comments_url, method: "post", post_id: params[:post_id], parent_comment_id: params[:comment_id], comment: @comment %>

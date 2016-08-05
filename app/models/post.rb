@@ -9,5 +9,17 @@ class Post < ActiveRecord::Base
 
   has_many :subs, through: :post_subs
 
+  has_many :votes, as: :votable
+
+  # has_many :comments
+
+  def comments
+    c = Comment.includes(:comments, :author).joins(:post).where(post_id: self.id)
+    c.select { |comment| comment.parent_comment_id.nil? }
+  end
+
+  def vote_count
+  end
+
 
 end

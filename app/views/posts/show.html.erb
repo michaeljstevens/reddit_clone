@@ -1,8 +1,17 @@
 <h1><%= @post.title %></h1>
 <h4><%= link_to @post.url, "http://" + @post.url %></h4>
 <p><%= @post.content %></p>
+<%= button_to "Upvote", upvote_post_url(@post) %>
+<%= button_to "Downvote", downvote_post_url(@post) %>
 
 <%= link_to "Edit Post", edit_post_url(@post) %>
+<hr>
+<h4>Comments</h4>
+<% @post.comments.each do |comment| %>
+  <%= render "comments/comment", comment: comment %>
+<% end %>
+<%= button_to "Create Comment", new_post_comment_url(@post), method: :get %>
+<%= render "comments/form", url: comments_url, method: "post", post_id: @post.id, comment: Comment.new, parent_comment_id: nil %>
 
 <h4>Subs</h4>
 <% @post.subs.each do |sub| %>

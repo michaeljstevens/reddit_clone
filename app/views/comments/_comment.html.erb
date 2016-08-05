@@ -1,0 +1,7 @@
+<li><%= "#{comment.author.username}: #{comment.content} - #{comment.created_at.strftime("%D at %I:%M%p")}" %></li>
+<ul>
+  <% comment.comments.each do |c| %>
+    <%= render "comments/comment", comment: c %>
+  <% end %>
+</ul>
+<li><%= render "comments/form", url: comments_url, method: "post", post_id: comment.post_id, parent_comment_id: comment.id, comment: Comment.new %></li>
