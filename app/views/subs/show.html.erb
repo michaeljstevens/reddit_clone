@@ -1,12 +1,20 @@
 <h2><%= @sub.title %></h2>
 <p><%= @sub.description %></p>
 
-<%= link_to "All Subs", subs_url %>
+<% if current_user.subscriptions.include?(@sub) %>
+  <%= button_to "Unsubscribe", unsubscribe_sub_url(@sub) %>
+<% else %>
+  <%= button_to "Subscribe", subscribe_sub_url(@sub) %>
+<% end %>
+
+<a href="<%= subs_url %>" class="btn btn-primary">
+  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> All Subs
+</a>
 <hr>
 
 <h4>Posts</h4>
 <% @sub.posts.each do |post| %>
-  <%= link_to post.title, post_url(post) %>
+  <%= link_to "(#{post.vote_count}) #{post.title}", post_url(post) %>
 <% end %>
-
-<%= link_to "New Post", new_post_url %>
+<hr>
+<%= link_to "New Post", new_post_url, class: "btn btn-success" %>

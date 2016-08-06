@@ -1,19 +1,35 @@
-<h1><%= @post.title %></h1>
-<h4><%= link_to @post.url, "http://" + @post.url %></h4>
-<p><%= @post.content %></p>
-<%= button_to "Upvote", upvote_post_url(@post) %>
-<%= button_to "Downvote", downvote_post_url(@post) %>
 
-<%= link_to "Edit Post", edit_post_url(@post) %>
+
+<div class="title_container">
+  <div style="margin-right: 15px;">
+    <form action="<%= upvote_post_url(@post) %>" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <button type="submit" class="btn btn-success">
+        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+      </button>
+    </form>
+
+    <form action="<%= downvote_post_url(@post) %>" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <button type="submit" class="btn btn-danger">
+        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+      </button>
+    </form>
+  </div>
+  <div>
+    <h1><%= " (#{@post.vote_count}) #{@post.title}" %></h1>
+    <h4><%= link_to @post.url, "http://" + @post.url %></h4>
+  </div>
+</div>
+
+<p><%= @post.content %></p>
+
+<% if current_user == @post.author %>
+  <%= link_to "Edit Post", edit_post_url(@post), class: "btn btn-info" %>
+<% end %>
+<%= render "comments/form", url: comments_url, method: "post", post_id: @post.id, comment: Comment.new, parent_comment_id: nil %>
 <hr>
 <h4>Comments</h4>
 <% @post.comments.each do |comment| %>
   <%= render "comments/comment", comment: comment %>
-<% end %>
-<%= button_to "Create Comment", new_post_comment_url(@post), method: :get %>
-<%= render "comments/form", url: comments_url, method: "post", post_id: @post.id, comment: Comment.new, parent_comment_id: nil %>
-
-<h4>Subs</h4>
-<% @post.subs.each do |sub| %>
-  <%= link_to sub.title, sub_url(sub) %>
 <% end %>

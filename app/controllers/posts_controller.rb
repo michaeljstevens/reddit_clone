@@ -19,12 +19,34 @@ class PostsController < ApplicationController
   end
 
   def upvote
-    @post.votes.new(value: 1)
-    save(@post)
+    vote = Vote.find_by(votable: @post, user_id: current_user.id)
+    if vote && vote.value == 1
+      flash[:errors] = ["You can't upvote twice!"]
+      redirect_to :back
+    else
+      if vote
+        vote.value = 1
+      else
+        vote = @post.votes.new(value: 1)
+        vote.user = current_user
+      end
+      save(vote)
+    end
   end
   def downvote
-    @post.votes.new(value: -1)
-    save(@post)
+    vote = Vote.find_by(votable: @post, user_id: current_user.id)
+    if vote && vote.value == -1
+      flash[:errors] = ["You can't downvote twice!"]
+      redirect_to :back
+    else
+      if vote
+        vote.value = -1
+      else
+        vote = @post.votes.new(value: -1)
+        vote.user = current_user
+      end
+      save(vote)
+    end
   end
 
   def edit

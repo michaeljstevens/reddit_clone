@@ -11,5 +11,18 @@
 // about supported directives.
 //
 //= require jquery
+//= require bootstrap-sprockets
 //= require jquery_ujs
 //= require_tree .
+
+$(function() {
+  $('.comment-collapse').on('click', function(e) {
+    if ($(e.target).html() === "Expand") {
+      $(e.target).html("Collapse");
+    } else {
+      $(e.target).html("Expand");
+    }
+
+    $($(e.target).siblings()[1]).toggle();
+  });
+});

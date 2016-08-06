@@ -5,6 +5,17 @@ class User < ActiveRecord::Base
 
   has_many :subs, dependent: :destroy
   has_many :posts, dependent: :destroy
+  has_many :subscription_links,
+    foreign_key: :user_id,
+    class_name: :Subscription
+
+  has_many :subscriptions,
+    through: :subscription_links,
+    source: :sub
+
+  has_many :subbed_posts,
+    through: :subscriptions,
+    source: :posts
 
   attr_reader :password
 

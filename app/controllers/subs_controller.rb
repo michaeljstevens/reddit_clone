@@ -1,7 +1,29 @@
 class SubsController < ApplicationController
   before_action :authenticate, except: [:index, :show]
-  before_action :find_sub, only: [:edit, :update, :destroy, :show]
+  before_action :find_sub, only: [:edit, :update, :destroy, :show, :subscribe, :unsubscribe]
   before_action :owner, only: [:edit, :update, :destroy]
+
+  def subscribe
+    new_sub = Subscription.new
+    new_sub.user = current_user
+    new_sub.sub = @sub
+    if new_sub.save
+      redirect_to :back
+    else
+      flash[:error] = new_sub.errors.full_messages
+      redirect_to :back
+    end
+  end
+
+  def unsubscribe
+    sub = Subscription.find_by(user: current_user, sub: @sub)
+    if sub.destroy
+      redirect_to :back
+    else
+      flash[:error] = sub.errors.full_messages
+      redirect_to :back
+    end
+  end
 
   def index
     @subs = Sub.all

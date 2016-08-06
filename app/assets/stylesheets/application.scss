@@ -1,0 +1,17 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+ul, li {
+  list-style-type: none;
+}
+
+.title_container {
+  display: flex;
+  align-items: center;
+}
+
+div {
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

@@ -14,11 +14,12 @@ class Post < ActiveRecord::Base
   # has_many :comments
 
   def comments
-    c = Comment.includes(:comments, :author).joins(:post).where(post_id: self.id)
+    c = Comment.includes(:comments, :author).order("created_at DESC").joins(:post).where(post_id: self.id).order("created_at DESC")
     c.select { |comment| comment.parent_comment_id.nil? }
   end
 
   def vote_count
+    self.votes.inject(0) { |acc, vote| acc + vote.value }
   end
 
 

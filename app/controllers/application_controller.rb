@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     if object.save
       redirect_to :back
     else
-      flash[:errors] = vote.errors.full_messages
+      flash[:errors] = object.errors.full_messages
       redirect_to :back
     end
   end

@@ -1,5 +1,15 @@
 class CommentsController < ApplicationController
-  before_action :find_comment, only: [:show, :destroy]
+  before_action :find_comment, only: [:show, :destroy, :upvote, :downvote]
+
+  def upvote
+    @comment.votes.new(value: 1)
+    save(@comment)
+  end
+
+  def downvote
+    @comment.votes.new(value: -1)
+    save(@comment)
+  end
 
   def new
     @comment = Comment.new

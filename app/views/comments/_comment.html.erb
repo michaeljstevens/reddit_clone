@@ -1,7 +1,32 @@
-<li><%= "#{comment.author.username}: #{comment.content} - #{comment.created_at.strftime("%D at %I:%M%p")}" %></li>
+<div class="well well-sm">
+  <div class="title_container">
+    <div style="margin-right: 15px;">
+      <form action="<%= upvote_comment_url(comment) %>" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <button type="submit" class="btn btn-sm btn-success">
+          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+        </button>
+      </form>
+
+      <form action="<%= downvote_comment_url(comment) %>" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <button type="submit" class="btn btn-sm btn-danger">
+          <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+    <div class="">
+      (<%= comment.vote_count %>) <%= "#{comment.author.username}: #{comment.content} - #{comment.created_at.strftime("%D at %I:%M%p")}" %>
+      <%= render "comments/form", url: comments_url, method: "post", post_id: comment.post_id, parent_comment_id: comment.id, comment: Comment.new %>
+    </div>
+
+  </div>
+
+
+<button type="button" name="button" class="comment-collapse">Collapse</button>
 <ul>
-  <% comment.comments.each do |c| %>
+  <% comment.comments.sort{ |a,b| b.created_at <=> a.created_at }.each do |c| %>
     <%= render "comments/comment", comment: c %>
   <% end %>
 </ul>
-<li><%= render "comments/form", url: comments_url, method: "post", post_id: comment.post_id, parent_comment_id: comment.id, comment: Comment.new %></li>
+</div>

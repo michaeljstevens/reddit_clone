@@ -16,5 +16,9 @@ class Comment < ActiveRecord::Base
 
   has_many :votes, as: :votable
 
+  def vote_count
+    self.votes.inject(0) { |acc, vote| acc + vote.value }
+  end
+
 
 end
